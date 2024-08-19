@@ -229,21 +229,21 @@ export default function Generate() {
             </h3>
             <ul className="p-8">
               {samplePrompts.map((prompt, index) => (
-                // <Slide
-                //   key={index}
-                //   direction="right"
-                //   delay={index * 100}
-                //   triggerOnce={true}
-                // >
-                <li
-                  className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
-                  onClick={() => {
-                    setText(prompt);
-                  }}
+                <Slide
+                  key={index}
+                  direction="right"
+                  delay={index * 100}
+                  triggerOnce={true}
                 >
-                  {prompt}
-                </li>
-                // </Slide>
+                  <li
+                    className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
+                    onClick={() => {
+                      setText(prompt);
+                    }}
+                  >
+                    {prompt}
+                  </li>
+                </Slide>
               ))}
             </ul>
           </div>
