@@ -16,11 +16,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  CircularProgress,
 } from "@mui/material";
 import Flashcard from "@/components/Flashcard/Flashcard";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { useAuth } from "@/context/AuthContext";
+import { samplePrompts } from "@/constants/sample-prompts";
 
 export default function Generate() {
   const [text, setText] = useState<string>("");
@@ -82,6 +84,7 @@ export default function Generate() {
       alert("Please enter some text to generate flashcards.");
       return;
     }
+    if (loading) return;
 
     try {
       setLoading(true);
@@ -121,88 +124,117 @@ export default function Generate() {
   return (
     <section id="result" className="pt-16 md:pt-20 lg:pt-28">
       <div className="container min-h-96">
-        <Container maxWidth="md">
-          <Box sx={{ my: 4 }}>
-            <Typography variant="h4" component="h1" gutterBottom>
+        <Container
+          maxWidth="lg"
+          className="mt-5 flex flex-wrap justify-between gap-5"
+        >
+          <div className="min-w-screen w-full md:w-3/5 md:min-w-64">
+            <Box>
+              {/* <Typography variant="h4" component="h1" gutterBottom>
               Generate Flashcards
-            </Typography>
-            <TextField
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              label="Enter text"
-              fullWidth
-              multiline
-              rows={4}
-              variant="outlined"
-              sx={{ mb: 2 }}
-              InputProps={{
-                style: { color: "white" },
-              }}
-              InputLabelProps={{
-                style: { color: "white" },
-              }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              fullWidth
-            >
-              {loading ? "Loading..." : "Generate Flashcards"}
-            </Button>
-          </Box>
-
-          {flashcards.length > 0 && (
-            <Box sx={{ mt: 4 }}>
-              <Typography variant="h5" component="h2" gutterBottom>
-                Generated Flashcards
-              </Typography>
-              <Grid container>
-                {flashcards.map((flashcard, index) => (
-                  <div
-                    key={index}
-                    className="w-full p-2 md:w-2/3 lg:w-1/2 xl:w-1/3"
-                  >
-                    <Flashcard front={flashcard.front} back={flashcard.back} />
-                  </div>
-                ))}
-              </Grid>
-            </Box>
-          )}
-          {flashcards.length > 0 && (
-            <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleOpenDialog}
-              >
-                Save Flashcards
-              </Button>
-            </Box>
-          )}
-          <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-            <DialogTitle>Save Flashcard Set</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please enter a name for your flashcard deck
-              </DialogContentText>
+            </Typography> */}
               <TextField
-                autoFocus
-                margin="dense"
-                label="Set Name"
-                type="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                label="Enter text"
                 fullWidth
-                value={deckName}
-                onChange={(e) => setDeckName(e.target.value)}
+                multiline
+                rows={4}
+                variant="outlined"
+                sx={{ mb: 2 }}
+                InputProps={{
+                  style: { color: "white" },
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
               />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseDialog}>Cancel</Button>
-              <Button onClick={saveFlashcards} color="primary">
-                Save
-              </Button>
-            </DialogActions>
-          </Dialog>
+              <button
+                className="border-stroke mb-6 flex w-full items-center justify-center rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? (
+                  <CircularProgress size={10} />
+                ) : (
+                  "Generate Flashcards"
+                )}
+              </button>
+            </Box>
+
+            {flashcards.length > 0 && (
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="h5" component="h2" gutterBottom>
+                  Generated Flashcards
+                </Typography>
+                <Grid container>
+                  {flashcards.map((flashcard, index) => (
+                    <div
+                      key={index}
+                      className="w-full p-2 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                    >
+                      <Flashcard
+                        front={flashcard.front}
+                        back={flashcard.back}
+                      />
+                    </div>
+                  ))}
+                </Grid>
+              </Box>
+            )}
+            {flashcards.length > 0 && (
+              <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOpenDialog}
+                >
+                  Save Flashcards
+                </Button>
+              </Box>
+            )}
+            <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+              <DialogTitle>Save Flashcard Set</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Please enter a name for your flashcard deck
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Set Name"
+                  type="text"
+                  fullWidth
+                  value={deckName}
+                  onChange={(e) => setDeckName(e.target.value)}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog}>Cancel</Button>
+                <Button onClick={saveFlashcards} color="primary">
+                  Save
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+          <div className="mb-10 rounded-sm bg-white shadow-three dark:bg-gray-dark dark:shadow-none">
+            <h3 className="border-b border-body-color border-opacity-10 px-8 py-4 text-lg font-semibold text-black dark:border-white dark:border-opacity-10 dark:text-white">
+              Sample Prompts
+            </h3>
+            <ul className="p-8">
+              {samplePrompts.map((prompt, index) => (
+                <li
+                  key={index}
+                  className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
+                  onClick={() => {
+                    setText(prompt);
+                  }}
+                >
+                  {prompt}
+                </li>
+              ))}
+            </ul>
+          </div>
         </Container>
       </div>
     </section>

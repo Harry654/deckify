@@ -77,13 +77,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ userInfo, updateUserInfo, isSignedIn }}>
-      {isLoaded ? (
-        children
+      {children}
+      {/* {isLoaded ? (
+      children
       ) : (
         <div className="flex h-96 w-screen items-center justify-center">
           <BeatLoader color="#fff" size={50} />
         </div>
-      )}
+      )} */}
     </AuthContext.Provider>
   );
 };
