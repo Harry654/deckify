@@ -127,9 +127,14 @@ export default function Generate() {
       <div className="container min-h-96">
         <Container
           maxWidth="lg"
-          className="mt-5 flex flex-wrap justify-between gap-5"
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            mt: 5,
+          }}
         >
-          <div className="min-w-screen w-full md:w-3/5 md:min-w-64">
+          <div className="min-w-screen w-full px-4 md:w-8/12 md:min-w-64">
             <Box>
               {/* <Typography variant="h4" component="h1" gutterBottom>
               Generate Flashcards
@@ -218,27 +223,27 @@ export default function Generate() {
               </DialogActions>
             </Dialog>
           </div>
-          <div className="mb-10 rounded-sm bg-white shadow-three dark:bg-gray-dark dark:shadow-none">
+          <div className="min-w-screen mb-10 w-full rounded-sm bg-white shadow-three dark:bg-gray-dark dark:shadow-none md:w-4/12 md:min-w-32">
             <h3 className="border-b border-body-color border-opacity-10 px-8 py-4 text-lg font-semibold text-black dark:border-white dark:border-opacity-10 dark:text-white">
               Sample Prompts
             </h3>
             <ul className="p-8">
               {samplePrompts.map((prompt, index) => (
-                <Slide
-                  key={index}
-                  direction="right"
-                  delay={index * 100}
-                  triggerOnce={true}
+                // <Slide
+                //   key={index}
+                //   direction="right"
+                //   delay={index * 100}
+                //   triggerOnce={true}
+                // >
+                <li
+                  className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
+                  onClick={() => {
+                    setText(prompt);
+                  }}
                 >
-                  <li
-                    className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
-                    onClick={() => {
-                      setText(prompt);
-                    }}
-                  >
-                    {prompt}
-                  </li>
-                </Slide>
+                  {prompt}
+                </li>
+                // </Slide>
               ))}
             </ul>
           </div>
