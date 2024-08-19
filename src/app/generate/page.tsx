@@ -184,7 +184,7 @@ export default function Generate() {
             <DialogTitle>Save Flashcard Set</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Please enter a name for your flashcard set.
+                Please enter a name for your flashcard deck
               </DialogContentText>
               <TextField
                 autoFocus

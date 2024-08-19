@@ -9,7 +9,6 @@ import NewsLatterBox from "@/components/Contact/NewsLatterBox";
 import SingleDeck from "@/components/Blog/SingleDeck";
 import Flashcard from "@/components/Flashcard/Flashcard";
 import { useAuth } from "@/context/AuthContext";
-import "@/styles/myflashcards.css";
 
 type TSelectedDeck = {
   name: string;
