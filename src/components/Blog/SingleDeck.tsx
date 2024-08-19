@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { MouseEventHandler } from "react";
 
-const RelatedPost = ({
+const SingleDeck = ({
   image,
   slug,
   title,
@@ -36,4 +36,4 @@ const RelatedPost = ({
   );
 };
 
-export default RelatedPost;
+export default SingleDeck;

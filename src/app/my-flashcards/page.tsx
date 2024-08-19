@@ -6,7 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import Image from "next/image";
 import NewsLatterBox from "@/components/Contact/NewsLatterBox";
-import RelatedPost from "@/components/Blog/RelatedPost";
+import SingleDeck from "@/components/Blog/SingleDeck";
 import Flashcard from "@/components/Flashcard/Flashcard";
 import { useAuth } from "@/context/AuthContext";
 import "@/styles/myflashcards.css";
@@ -437,7 +437,7 @@ const MyFlashcards = () => {
                       key={index}
                       className="mb-6 border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
                     >
-                      <RelatedPost
+                      <SingleDeck
                         title={card.name}
                         image="/images/blog/post-01.jpg"
                         slug="#"
