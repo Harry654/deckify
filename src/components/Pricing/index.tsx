@@ -66,7 +66,7 @@ const Pricing = () => {
   const router = useRouter();
 
   const handleSubmit = async (plan: TPlan) => {
-    if (!isSignedIn) return router.push("/sign-in");
+    if (!isSignedIn) return router.push("/signin");
 
     const checkoutSession = await fetch("/api/checkout_sessions", {
       method: "POST",

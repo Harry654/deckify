@@ -12,6 +12,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { IUserInfo } from "@/types/user";
 import { BeatLoader } from "react-spinners";
+import { UserInfo } from "os";
 // import type { User } from '@clerk/nextjs/server';
 
 interface Props {
@@ -19,8 +20,8 @@ interface Props {
 }
 
 interface AuthContextType {
-  // user: string;
   userInfo: IUserInfo | null;
+  updateUserInfo: (newUserInfo: IUserInfo) => void;
   isSignedIn: boolean | undefined;
 }
 
@@ -67,12 +68,15 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  const updateUserInfo = (newUserInfo: IUserInfo): void =>
+    setUserInfo(newUserInfo);
+
   useEffect(() => {
     fetchUserInfo();
   }, [user, isLoaded, isSignedIn]);
 
   return (
-    <AuthContext.Provider value={{ userInfo, isSignedIn }}>
+    <AuthContext.Provider value={{ userInfo, updateUserInfo, isSignedIn }}>
       {isLoaded ? (
         children
       ) : (

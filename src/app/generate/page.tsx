@@ -20,6 +20,7 @@ import {
 import Flashcard from "@/components/Flashcard/Flashcard";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Generate() {
   const [text, setText] = useState<string>("");
@@ -27,49 +28,48 @@ export default function Generate() {
   const [flashcards, setFlashcards] = useState<
     { front: string; back: string }[]
   >([]);
-  const [setName, setSetName] = useState<string>("");
+  const [deckName, setDeckName] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const { user } = useUser();
+  const { userInfo, updateUserInfo } = useAuth();
 
   const handleOpenDialog = () => setDialogOpen(true);
   const handleCloseDialog = () => setDialogOpen(false);
 
   const saveFlashcards = async () => {
-    if (!setName.trim()) {
+    if (!deckName.trim()) {
       alert("Please enter a name for your flashcard set.");
       return;
     }
 
-    if (!user) {
+    if (!userInfo) {
       alert("Please sign in to save flashcards.");
       return;
     }
 
     try {
       setLoading(true);
-      const userDocRef = doc(collection(db, "users"), user.id);
-      const userDocSnap = await getDoc(userDocRef);
+      const userDocRef = doc(collection(db, "users"), userInfo.id);
       const batch = writeBatch(db);
+      // const userDocSnap = await getDoc(userDocRef);
 
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        const updatedSets = [
-          ...(userData.flashcardSets || []),
-          { name: setName },
-        ];
-        batch.update(userDocRef, { flashcardSets: updatedSets });
-      } else {
-        batch.set(userDocRef, { flashcardSets: [{ name: setName }] });
-      }
+      // if (!userDocSnap.exists()) return alert("user not found");
 
-      const setDocRef = doc(collection(userDocRef, "flashcardSets"), setName);
+      // const userData = userDocSnap.data();
+      const updatedSets = [
+        ...(userInfo.flashcardSets || []),
+        { name: deckName },
+      ];
+      batch.update(userDocRef, { flashcardSets: updatedSets });
+
+      const setDocRef = doc(collection(userDocRef, "flashcardSets"), deckName);
       batch.set(setDocRef, { flashcards });
 
       await batch.commit();
       setLoading(false);
       alert("Flashcards saved successfully!");
       handleCloseDialog();
-      setSetName("");
+      setDeckName("");
+      updateUserInfo({ ...userInfo, flashcardSets: updatedSets });
     } catch (error) {
       console.error("Error saving flashcards:", error);
       setLoading(false);
@@ -192,8 +192,8 @@ export default function Generate() {
                 label="Set Name"
                 type="text"
                 fullWidth
-                value={setName}
-                onChange={(e) => setSetName(e.target.value)}
+                value={deckName}
+                onChange={(e) => setDeckName(e.target.value)}
               />
             </DialogContent>
             <DialogActions>
