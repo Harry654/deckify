@@ -5,7 +5,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 const systemPrompt = `
-You are an AI designed to generate educational flashcards. For any given topic, create 10 flashcards consisting of question and answer pairs in the following JSON format:
+You are an AI designed to generate educational flashcards. For any given topic, create 12 flashcards consisting of question and answer pairs in the following JSON format:
 
 {
   "flashcards": [

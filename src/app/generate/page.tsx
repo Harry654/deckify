@@ -199,7 +199,7 @@ export default function Generate() {
               </Box>
             )}
             <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-              <DialogTitle>Save Flashcard Set</DialogTitle>
+              <DialogTitle>Save Flashcard Deck</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   Please enter a name for your flashcard deck
@@ -222,7 +222,7 @@ export default function Generate() {
               </DialogActions>
             </Dialog>
           </div>
-          <div className="min-w-screen mb-10 w-full rounded-sm bg-white shadow-three dark:bg-gray-dark dark:shadow-none md:w-4/12 md:min-w-32">
+          <div className="min-w-screen sticky top-24 mb-10 h-min w-full rounded-sm bg-white shadow-three dark:bg-gray-dark dark:shadow-none md:w-4/12 md:min-w-32">
             <h3 className="border-b border-body-color border-opacity-10 px-8 py-4 text-lg font-semibold text-black dark:border-white dark:border-opacity-10 dark:text-white">
               Sample Prompts
             </h3>
