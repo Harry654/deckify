@@ -23,6 +23,7 @@ import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { useAuth } from "@/context/AuthContext";
 import { samplePrompts } from "@/constants/sample-prompts";
+import { Slide } from "react-awesome-reveal";
 
 export default function Generate() {
   const [text, setText] = useState<string>("");
@@ -223,15 +224,21 @@ export default function Generate() {
             </h3>
             <ul className="p-8">
               {samplePrompts.map((prompt, index) => (
-                <li
+                <Slide
                   key={index}
-                  className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
-                  onClick={() => {
-                    setText(prompt);
-                  }}
+                  direction="right"
+                  delay={index * 100}
+                  triggerOnce={true}
                 >
-                  {prompt}
-                </li>
+                  <li
+                    className="mb-6 cursor-pointer border-b border-body-color border-opacity-10 pb-6 dark:border-white dark:border-opacity-10"
+                    onClick={() => {
+                      setText(prompt);
+                    }}
+                  >
+                    {prompt}
+                  </li>
+                </Slide>
               ))}
             </ul>
           </div>
