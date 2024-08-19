@@ -1,18 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
+import { MouseEventHandler } from "react";
 
 const RelatedPost = ({
   image,
   slug,
   title,
   date,
-  handleClicked
+  handleClicked,
 }: {
   image: string;
   slug: string;
   title: string;
   date: string;
-  handleClicked: Function
+  handleClicked: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <div className="flex items-center lg:block xl:flex">

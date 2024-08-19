@@ -7,19 +7,20 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { User, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { IUserInfo } from "@/types/user";
+import { BeatLoader } from "react-spinners";
+// import type { User } from '@clerk/nextjs/server';
 
 interface Props {
   children: ReactNode;
 }
 
 interface AuthContextType {
-  user: User;
+  // user: string;
   userInfo: IUserInfo | null;
-  isLoaded: boolean;
   isSignedIn: boolean | undefined;
 }
 
@@ -71,10 +72,23 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   }, [user, isLoaded, isSignedIn]);
 
   return (
-    <AuthContext.Provider value={{ user, userInfo, isLoaded, isSignedIn }}>
-      {children}
+    <AuthContext.Provider value={{ userInfo, isSignedIn }}>
+      {isLoaded ? (
+        children
+      ) : (
+        <div className="flex h-96 w-screen items-center justify-center">
+          <BeatLoader color="#fff" size={50} />
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// Custom hook to use the AuthContext
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

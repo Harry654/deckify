@@ -11,18 +11,10 @@ const Footer = () => {
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
               <div className="mb-12 max-w-[360px] lg:mb-16">
                 <Link href="/" className="mb-8 inline-block">
-                  {/* <Image
-                    src="/images/logo/logo-2.svg"
-                    alt="logo"
-                    className="w-full dark:hidden"
-                    className="hidden w-16 h-16 dark:block rounded-full"
-                    width={50}
-                    height={50}
-                  /> */}
                   <Image
                     src="/images/logo/logo.svg"
                     alt="logo"
-                    className="hidden w-12 h-12 dark:block rounded-full"
+                    className="h-12 w-12 rounded-full"
                     width={50}
                     height={50}
                   />

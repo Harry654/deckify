@@ -7,6 +7,7 @@ import { TPlan } from "@/types/plan";
 import { useRouter } from "next/navigation";
 import getStripe from "@/utils/get-stripe";
 import { useAuth } from "@/context/AuthContext";
+import { Slide } from "react-awesome-reveal";
 
 const Pricing = () => {
   const [isMonthly, setIsMonthly] = useState(true);
@@ -141,16 +142,23 @@ const Pricing = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-          {pricingPlans.map((plan: TPlan) => (
-            <PricingBox
-              isMonthly={isMonthly}
-              plan={plan}
-              handleSubmit={handleSubmit}
+          {pricingPlans.map((plan: TPlan, index) => (
+            <Slide
+              key={index}
+              direction="left"
+              delay={index * 100}
+              triggerOnce={true}
             >
-              {plan.features.map((feature, index) => (
-                <OfferList key={index} text={feature} status="active" />
-              ))}
-            </PricingBox>
+              <PricingBox
+                isMonthly={isMonthly}
+                plan={plan}
+                handleSubmit={handleSubmit}
+              >
+                {plan.features.map((feature, index) => (
+                  <OfferList key={index} text={feature} status="active" />
+                ))}
+              </PricingBox>
+            </Slide>
           ))}
         </div>
       </div>
